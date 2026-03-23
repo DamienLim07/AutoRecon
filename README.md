@@ -1,12 +1,14 @@
-# AutoRecon 🔍
+# AutoRecon 
 
-**CTF-focused web reconnaissance tool**. This reconnaissance tool is adaptive, fast, and purpose-built for finding flags.
+**CTF-focused web reconnaissance tool**. Adaptive, fast, and purpose-built for finding flags.
+
+> **Download:** [`recon.py`](recon.py) — or copy the script and save it as whatever you like.
 
 ---
 
 ## Overview
 
-AutoRecon orchestrates web recon tools at **native speed**. No Python overhead during scans. Tools run directly, with output being saved via `tee`, and Python post-processes results into a clean HTML report with **clickable paths**, **flag highlighting**, and a **sidebar TOC**.
+AutoRecon orchestrates web recon tools at **native speed**. No Python overhead during scans. Tools run directly with output saved via `tee`, and Python post-processes results into a clean HTML report with **clickable paths**, **flag highlighting**, and a **sidebar TOC**.
 
 Designed for CTF boxes where you need results fast and want everything in one place.
 
@@ -14,7 +16,7 @@ Designed for CTF boxes where you need results fast and want everything in one pl
 
 ## Screenshots
 
-These screenshots were taken with the "head-dump" Web Exploitation challenge from picoGym.
+> Screenshots taken on the *head-dump* Web Exploitation challenge from picoGym.
 
 ### CLI — Live Output
 ![CLI1](CLI1.png)
@@ -31,8 +33,9 @@ These screenshots were taken with the "head-dump" Web Exploitation challenge fro
 
 - **Service-based web detection** — detects web servers by service name, not just port number. Flask on 5000, Apache on 8888, anything Nmap identifies as HTTP gets scanned automatically
 - **Skip Nmap** — use `--port` when you already know the port (common in CTF), jumps straight to recon
-- **Quick CTF pre-checks** — instantly checks `robots.txt`, `sitemap.xml`, `flag.txt`, `flag.php` before full scan
-- **Native speed scanning** — WhatWeb, Nikto, and Gobuster run at full speed via `tee`, no Python bottleneck
+- **Protocol detection** — specify `http` or `https` manually, or let the tool auto-detect by probing the port
+- **Quick CTF pre-checks** — instantly checks `robots.txt`, `sitemap.xml`, `flag.txt`, `flag.php` before the full scan
+- **Native speed scanning** — WhatWeb, Nikto, and Gobuster run at full native speed via `tee`, no Python bottleneck
 - **Gobuster clickable paths** — every path found becomes a clickable link in the report, open directly in browser
 - **200 path previews** — automatically curls every 200 response, shows raw content preview, detects login pages and binary files
 - **Flag pattern detection** — set your CTF flag prefix (e.g. `picoCTF`) and the tool highlights matches across all output post-scan
@@ -52,7 +55,10 @@ python3 recon.py <target>
 python3 recon.py <target> --port 8080
 
 # Set flag prefix for highlighting
-python3 recon.py <target> -p picoCTF
+python3 recon.py <target> --port 8080 -p picoCTF
+
+# Specify protocol manually, or omit to auto-detect
+python3 recon.py <target> --port 8080 --proto http
 
 # Full port scan — catches high ports like 50028, much slower
 python3 recon.py <target> -f
@@ -60,10 +66,10 @@ python3 recon.py <target> -f
 # Custom wordlist
 python3 recon.py <target> -w /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt
 
-# Add extensions to Gobuster
+# Add extensions to Gobuster (default: none for speed)
 python3 recon.py <target> -x php,html,txt
 
-# Increase threads for faster Gobuster on stable networks
+# Increase Gobuster threads for faster scans on stable networks
 python3 recon.py <target> -t 100
 
 # Full example
@@ -81,7 +87,7 @@ python3 recon.py verbal-sleep.picoctf.net --port 56131 -p picoCTF -t 80
 | `--proto` | auto-detect | Protocol for `--port` (`http` or `https`) |
 | `-f` / `--full` | off | Full Nmap scan (`-p-`) — all 65535 ports |
 | `-w` / `--wordlist` | auto-detect | Gobuster wordlist path |
-| `-t` / `--threads` | 40 | Gobuster thread count |
+| `-t` / `--threads` | 40 | Gobuster thread count (handled natively by Gobuster) |
 | `-x` / `--extensions` | none | Gobuster extensions e.g. `php,html,txt` |
 | `-o` / `--output` | `./recon_output` | Output directory |
 | `-p` / `--prefix` | prompt | Flag format prefix e.g. `picoCTF`, `LNC26` |
@@ -126,27 +132,27 @@ Or specify your own with `-w`.
 
 ```
 [Pre-scan]
-  → Ask for flag prefix
-  → Check all tools installed
+  → Ask for flag prefix (or pass -p)
+  → Check all tools are installed
 
 [Phase 1 — Nmap]  (skipped if --port used)
-  → Service version detection
+  → Service version detection (-sV -sC)
   → Parse open ports, detect web services by service name
 
 [Phase 2 — Quick CTF Pre-checks]
   → robots.txt, sitemap.xml, flag.txt, flag.php
 
 [Phase 3 — Web Recon per port]
-  → WhatWeb (tech fingerprinting)
+  → WhatWeb (technology fingerprinting)
   → Nikto (vulnerability scan)
-  → Gobuster (directory bruteforce, native speed)
+  → Gobuster (directory bruteforce at native speed)
   → Curl all 200 paths → content preview, login detection, binary detection
 
 [Phase 4 — Report]
-  → Post-scan flag pattern search across all .txt files
-  → Generate HTML report with clickable TOC
+  → Post-scan flag pattern search across all saved .txt files
+  → Generate HTML report with clickable TOC and clickable Gobuster paths
   → Auto-open in browser
-  → Terminal summary
+  → Print terminal summary
 ```
 
 ---
