@@ -58,7 +58,7 @@ python3 recon.py <target> --port 8080
 python3 recon.py <target> -p picoCTF
 
 # Specify protocol manually, or omit to auto-detect, optional as tool will prompt you interactively or auto-detect if omitted
-python3 recon.py <target> --proto http
+python3 recon.py <target> --port 8080 --proto http
 
 # Full port scan — catches high ports like 50028, much slower
 python3 recon.py <target> -f
