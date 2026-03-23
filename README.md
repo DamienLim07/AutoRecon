@@ -2,7 +2,7 @@
 
 **CTF-focused web reconnaissance tool**. Adaptive, fast, and purpose-built for finding flags.
 
-> **Download:** [`recon.py`](recon.py) — or copy the script and save it as whatever you like.
+> **Download:** [`recon.py`](recon.py) or copy the script and save it as whatever you like.
 
 ---
 
