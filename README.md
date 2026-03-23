@@ -55,10 +55,10 @@ python3 recon.py <target>
 python3 recon.py <target> --port 8080
 
 # Set flag prefix for highlighting
-python3 recon.py <target> --port 8080 -p picoCTF
+python3 recon.py <target> -p picoCTF
 
-# Specify protocol manually, or omit to auto-detect
-python3 recon.py <target> --port 8080 --proto http
+# Specify protocol manually, or omit to auto-detect, optional as tool will prompt you interactively or auto-detect if omitted
+python3 recon.py <target> --proto http
 
 # Full port scan — catches high ports like 50028, much slower
 python3 recon.py <target> -f
@@ -90,7 +90,7 @@ python3 recon.py verbal-sleep.picoctf.net --port 56131 -p picoCTF -t 80
 | `-t` / `--threads` | 40 | Gobuster thread count (handled natively by Gobuster) |
 | `-x` / `--extensions` | none | Gobuster extensions e.g. `php,html,txt` |
 | `-o` / `--output` | `./recon_output` | Output directory |
-| `-p` / `--prefix` | prompt | Flag format prefix e.g. `picoCTF`, `LNC26` |
+| `-p` / `--prefix` | prompt | Flag format prefix e.g. `picoCTF` |
 
 ---
 
@@ -157,12 +157,18 @@ Or specify your own with `-w`.
 
 ---
 
-## ⚠️ Legal Disclaimer
+## Note 
 
-For **authorized penetration testing and CTF competitions only**.
-
-Only use against systems you own or have **explicit written permission** to test. Unauthorized use may violate Singapore's Computer Misuse Act and equivalent laws in your jurisdiction.
+Please reach out to inform me if there are any issues with the published script. Also reach out if there are any improvements you think could be made. Additionally, due to its nature as a Python script, it is very easy for you to change any part as you like to fit whatever needs you may have. 
 
 ---
 
-*Part of a growing CTF toolkit — hash identifier, steg multitool, and more coming soon.*
+## Legal Disclaimer
+
+For **authorized penetration testing and CTF competitions only**.
+
+Only use against systems you own or have **explicit permission** to test. Unauthorized use may violate Singapore's Computer Misuse Act and equivalent laws in your jurisdiction.
+
+---
+
+*Part of a toolkit that I'm continuing to develop. Looking at hash identifier, steg multitool now.*
